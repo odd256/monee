@@ -1,0 +1,85 @@
+import {
+  Bike,
+  BookOpen,
+  Briefcase,
+  Building2,
+  Bus,
+  Car,
+  CircleDollarSign,
+  CircleParking,
+  Clock,
+  Coffee,
+  Cookie,
+  Dumbbell,
+  Ellipsis,
+  Film,
+  Fuel,
+  Gamepad2,
+  Gift,
+  GraduationCap,
+  HandCoins,
+  HeartPulse,
+  House,
+  Library,
+  Pill,
+  Plane,
+  Shirt,
+  ShoppingBag,
+  ShoppingBasket,
+  Smartphone,
+  Stethoscope,
+  TrendingUp,
+  Utensils,
+  Wallet,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
+
+const ICONS: Record<string, LucideIcon> = {
+  utensils: Utensils,
+  coffee: Coffee,
+  cookie: Cookie,
+  bike: Bike,
+  car: Car,
+  bus: Bus,
+  fuel: Fuel,
+  "parking-circle": CircleParking,
+  "shopping-bag": ShoppingBag,
+  "shopping-basket": ShoppingBasket,
+  shirt: Shirt,
+  smartphone: Smartphone,
+  house: House,
+  zap: Zap,
+  "building-2": Building2,
+  "gamepad-2": Gamepad2,
+  film: Film,
+  plane: Plane,
+  dumbbell: Dumbbell,
+  "heart-pulse": HeartPulse,
+  stethoscope: Stethoscope,
+  pill: Pill,
+  "graduation-cap": GraduationCap,
+  "book-open": BookOpen,
+  library: Library,
+  gift: Gift,
+  "hand-coins": HandCoins,
+  ellipsis: Ellipsis,
+  briefcase: Briefcase,
+  clock: Clock,
+  "trending-up": TrendingUp,
+  wallet: Wallet,
+  "circle-dollar-sign": CircleDollarSign,
+};
+
+export function CategoryIcon({
+  name,
+  className,
+}: {
+  name: string;
+  className?: string;
+}) {
+  const Icon = ICONS[name] ?? Ellipsis;
+  return <Icon className={className} aria-hidden="true" />;
+}
+
+export const CATEGORY_ICON_NAMES = Object.keys(ICONS);

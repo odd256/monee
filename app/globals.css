@@ -1,26 +1,104 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "@heroui/styles";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans:
+    var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans SC", sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  /* Monee brand: a calm jade green that reads well on both themes. */
+  --accent: oklch(0.58 0.13 165);
+  --accent-foreground: oklch(0.99 0 0);
+  --accent-hover: oklch(0.53 0.13 165);
+  --accent-soft: oklch(0.94 0.04 165);
+  --accent-soft-foreground: oklch(0.35 0.08 165);
+  --accent-soft-hover: oklch(0.91 0.05 165);
+}
+
+.dark {
+  --accent: oklch(0.72 0.14 165);
+  --accent-foreground: oklch(0.12 0.02 165);
+  --accent-hover: oklch(0.78 0.14 165);
+  --accent-soft: oklch(0.28 0.05 165);
+  --accent-soft-foreground: oklch(0.86 0.08 165);
+  --accent-soft-hover: oklch(0.33 0.06 165);
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Keep iOS safe areas out of the way of the app shell. */
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Floating controls sit above the mobile tab bar, including the iOS safe area. */
+.above-tabbar {
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 5rem);
+}
+
+@media (min-width: 768px) {
+  .above-tabbar {
+    bottom: 2rem;
+  }
+}
+
+/* Hide scrollbars on horizontal carousels while keeping scrolling. */
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* A subtle page entrance used by the ledger pages. */
+@keyframes monee-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: monee-rise 220ms ease-out both;
+}
+
+/* Form fields should never trigger the iOS focus zoom. */
+@supports (-webkit-touch-callout: none) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Keep toasts below the mobile top bar instead of hiding the page title. */
+[data-slot="toast-region"].toast-region--top {
+  top: calc(env(safe-area-inset-top, 0px) + 64px) !important;
+}
+
+@media (min-width: 768px) {
+  [data-slot="toast-region"].toast-region--top {
+    top: 80px !important;
+  }
 }
