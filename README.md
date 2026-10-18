@@ -84,13 +84,29 @@ Token 只保存在本机 IndexedDB，不会写入仓库或发送到其他服务�
 
 ### GitHub Pages
 
-项目站点需要设置环境变量：
+线上地址：<https://odd256.github.io/monee/>
+
+首次部署需要在仓库的 **Settings → Pages → Build and deployment** 中把 **Source** 设为 **GitHub Actions**。之后每次推送到 `main`，或手动运行 `Deploy to GitHub Pages` workflow，都会自动构建并发布。
+
+workflow 会：
+
+1. 通过 `actions/configure-pages` 取得 Pages 的 base path（项目站点为 `/monee`，自定义域名为空）
+2. 执行 `bun run build`，并把 base path 传给 `NEXT_PUBLIC_BASE_PATH`
+3. 上传 `out/` 并部署到 Pages
+
+本地验证项目站点构建：
 
 ```bash
 NEXT_PUBLIC_BASE_PATH=/monee bun run build
 ```
 
-`public/.nojekyll` 已包含，避免 GitHub Pages 忽略 `_next` 目录。
+PowerShell：
+
+```powershell
+$env:NEXT_PUBLIC_BASE_PATH="/monee"; bun run build
+```
+
+构建后 `out/index.html` 中的资源路径应以 `/monee/_next/` 开头。`public/.nojekyll` 会保留在产物中，避免 GitHub Pages 忽略 `_next` 目录。
 
 ## 目录
 
