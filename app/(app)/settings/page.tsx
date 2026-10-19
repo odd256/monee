@@ -89,7 +89,7 @@ export default function SettingsPage() {
           href="/settings/appearance"
           icon={Palette}
           title="外观"
-          description="浅色、深色或跟随系统"
+          description="主题模式与主题色"
           accent="#8b5cf6"
         />
         <div className="mx-4 border-t border-separator" />

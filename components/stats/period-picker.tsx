@@ -1,7 +1,9 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@heroui/react";
+import { useState } from "react";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button, Popover } from "@heroui/react";
+import { MonthGrid, YearGrid } from "@/components/ui/period-grid";
 import {
   addMonths,
   addYears,
@@ -23,6 +25,10 @@ export function PeriodPicker({
   onPeriodChange: (period: StatsPeriod) => void;
   onAnchorChange: (anchor: number) => void;
 }) {
+  const [open, setOpen] = useState(false);
+  const label =
+    period === "month" ? formatMonth(anchor) : dayjs(anchor).format("YYYY年");
+
   return (
     <div className="flex flex-col gap-2">
       <div className="grid grid-cols-2 gap-1 rounded-2xl bg-surface p-1">
@@ -42,6 +48,7 @@ export function PeriodPicker({
           </button>
         ))}
       </div>
+
       <div className="flex items-center justify-between">
         <Button
           isIconOnly
@@ -58,11 +65,45 @@ export function PeriodPicker({
         >
           <ChevronLeft className="size-4" />
         </Button>
-        <span className="text-sm font-semibold">
-          {period === "month"
-            ? formatMonth(anchor)
-            : dayjs(anchor).format("YYYY年")}
-        </span>
+
+        <Popover isOpen={open} onOpenChange={setOpen}>
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-label={`${period === "month" ? "选择月份" : "选择年份"}，当前 ${label}`}
+            className="h-auto gap-1 px-2 py-0.5 text-sm font-semibold"
+          >
+            {label}
+            <ChevronDown className="size-3.5 text-muted" />
+          </Button>
+          <Popover.Content placement="bottom">
+            <Popover.Dialog
+              aria-label={period === "month" ? "选择月份" : "选择年份"}
+              className="w-64 p-3"
+            >
+              {period === "month" ? (
+                <MonthGrid
+                  key={`month-${anchor}-${open}`}
+                  value={anchor}
+                  onSelect={(value) => {
+                    onAnchorChange(value);
+                    setOpen(false);
+                  }}
+                />
+              ) : (
+                <YearGrid
+                  key={`year-${anchor}-${open}`}
+                  value={anchor}
+                  onSelect={(value) => {
+                    onAnchorChange(value);
+                    setOpen(false);
+                  }}
+                />
+              )}
+            </Popover.Dialog>
+          </Popover.Content>
+        </Popover>
+
         <Button
           isIconOnly
           variant="secondary"

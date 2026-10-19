@@ -3,6 +3,10 @@ import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Bootstrap } from "@/components/app/bootstrap";
 import { RegisterServiceWorker } from "@/components/pwa/register-sw";
+import {
+  ACCENT_OPTIONS,
+  ACCENT_STORAGE_KEY,
+} from "@/lib/theme/accent";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -15,6 +19,12 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+// Restore the saved theme color before first paint so the app never flashes
+// the default jade palette when another accent is selected.
+const accentInitScript = `(function(){try{var key=${JSON.stringify(ACCENT_STORAGE_KEY)};var allowed=${JSON.stringify(
+  ACCENT_OPTIONS.map((option) => option.id),
+)};var value=localStorage.getItem(key);if(value&&allowed.indexOf(value)!==-1){document.documentElement.setAttribute("data-accent",value)}}catch(error){}})();`;
 
 export const metadata: Metadata = {
   title: {
@@ -51,6 +61,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full`}
     >
       <body className="min-h-full bg-background text-foreground antialiased">
+        <script
+          id="accent-init"
+          dangerouslySetInnerHTML={{ __html: accentInitScript }}
+        />
         <Providers>
           <RegisterServiceWorker />
           <Bootstrap>{children}</Bootstrap>

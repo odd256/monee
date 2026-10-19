@@ -28,7 +28,7 @@ export function TopBar() {
   const isSettingsSubpage = normalizedPath.startsWith("/settings/");
 
   return (
-    <header className="safe-top flex items-center justify-between gap-3 px-4 pb-2 pt-3 md:px-8 md:pt-6">
+    <header className="safe-top flex items-center justify-between gap-3 px-4 pb-2 md:px-8">
       <div className="min-w-0">
         <div className="flex items-center gap-1.5">
           {isSettingsSubpage ? (

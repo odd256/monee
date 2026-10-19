@@ -8,8 +8,12 @@
   --font-mono: var(--font-geist-mono);
 }
 
-:root {
-  /* Monee brand: a calm jade green that reads well on both themes. */
+/*
+ * Theme colors. The accent palette is selected by `data-accent` on <html>
+ * (or on a swatch preview element). Jade is the default.
+ */
+:root,
+[data-accent="jade"] {
   --accent: oklch(0.58 0.13 165);
   --accent-foreground: oklch(0.99 0 0);
   --accent-hover: oklch(0.53 0.13 165);
@@ -18,13 +22,110 @@
   --accent-soft-hover: oklch(0.91 0.05 165);
 }
 
-.dark {
+.dark,
+.dark[data-accent="jade"],
+.dark [data-accent="jade"] {
   --accent: oklch(0.72 0.14 165);
   --accent-foreground: oklch(0.12 0.02 165);
   --accent-hover: oklch(0.78 0.14 165);
   --accent-soft: oklch(0.28 0.05 165);
   --accent-soft-foreground: oklch(0.86 0.08 165);
   --accent-soft-hover: oklch(0.33 0.06 165);
+}
+
+[data-accent="ocean"] {
+  --accent: oklch(0.58 0.15 245);
+  --accent-foreground: oklch(0.99 0 0);
+  --accent-hover: oklch(0.53 0.15 245);
+  --accent-soft: oklch(0.94 0.04 245);
+  --accent-soft-foreground: oklch(0.35 0.09 245);
+  --accent-soft-hover: oklch(0.91 0.05 245);
+}
+
+.dark[data-accent="ocean"],
+.dark [data-accent="ocean"] {
+  --accent: oklch(0.72 0.14 245);
+  --accent-foreground: oklch(0.12 0.02 245);
+  --accent-hover: oklch(0.78 0.14 245);
+  --accent-soft: oklch(0.28 0.05 245);
+  --accent-soft-foreground: oklch(0.86 0.08 245);
+  --accent-soft-hover: oklch(0.33 0.06 245);
+}
+
+[data-accent="violet"] {
+  --accent: oklch(0.58 0.17 295);
+  --accent-foreground: oklch(0.99 0 0);
+  --accent-hover: oklch(0.53 0.17 295);
+  --accent-soft: oklch(0.94 0.05 295);
+  --accent-soft-foreground: oklch(0.36 0.1 295);
+  --accent-soft-hover: oklch(0.91 0.06 295);
+}
+
+.dark[data-accent="violet"],
+.dark [data-accent="violet"] {
+  --accent: oklch(0.73 0.15 295);
+  --accent-foreground: oklch(0.12 0.02 295);
+  --accent-hover: oklch(0.79 0.15 295);
+  --accent-soft: oklch(0.29 0.06 295);
+  --accent-soft-foreground: oklch(0.87 0.09 295);
+  --accent-soft-hover: oklch(0.34 0.07 295);
+}
+
+[data-accent="rose"] {
+  --accent: oklch(0.6 0.16 12);
+  --accent-foreground: oklch(0.99 0 0);
+  --accent-hover: oklch(0.55 0.16 12);
+  --accent-soft: oklch(0.95 0.04 12);
+  --accent-soft-foreground: oklch(0.38 0.1 12);
+  --accent-soft-hover: oklch(0.92 0.05 12);
+}
+
+.dark[data-accent="rose"],
+.dark [data-accent="rose"] {
+  --accent: oklch(0.74 0.14 12);
+  --accent-foreground: oklch(0.14 0.02 12);
+  --accent-hover: oklch(0.8 0.14 12);
+  --accent-soft: oklch(0.29 0.05 12);
+  --accent-soft-foreground: oklch(0.87 0.08 12);
+  --accent-soft-hover: oklch(0.34 0.06 12);
+}
+
+[data-accent="amber"] {
+  --accent: oklch(0.76 0.15 72);
+  --accent-foreground: oklch(0.2 0.03 72);
+  --accent-hover: oklch(0.71 0.15 72);
+  --accent-soft: oklch(0.96 0.05 72);
+  --accent-soft-foreground: oklch(0.36 0.08 72);
+  --accent-soft-hover: oklch(0.93 0.06 72);
+}
+
+.dark[data-accent="amber"],
+.dark [data-accent="amber"] {
+  --accent: oklch(0.82 0.14 72);
+  --accent-foreground: oklch(0.16 0.03 72);
+  --accent-hover: oklch(0.87 0.13 72);
+  --accent-soft: oklch(0.3 0.06 72);
+  --accent-soft-foreground: oklch(0.9 0.08 72);
+  --accent-soft-hover: oklch(0.35 0.07 72);
+}
+
+[data-accent="graphite"] {
+  --accent: oklch(0.45 0.02 250);
+  --accent-foreground: oklch(0.99 0 0);
+  --accent-hover: oklch(0.4 0.02 250);
+  --accent-soft: oklch(0.94 0.01 250);
+  --accent-soft-foreground: oklch(0.3 0.02 250);
+  --accent-soft-hover: oklch(0.9 0.015 250);
+}
+
+.dark[data-accent="graphite"],
+.dark [data-accent="graphite"] {
+  --accent: oklch(0.78 0.02 250);
+  --accent-foreground: oklch(0.14 0.01 250);
+  --accent-hover: oklch(0.84 0.02 250);
+  --accent-soft: oklch(0.3 0.015 250);
+  --accent-soft-foreground: oklch(0.9 0.015 250);
+  --accent-soft-hover: oklch(0.35 0.02 250);
 }
 
 html,
@@ -37,9 +138,20 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Keep iOS safe areas out of the way of the app shell. */
+/*
+ * Keep iOS safe areas out of the way of the app shell. The safe area is added
+ * on top of a minimum spacing: on devices without a notch (most Android
+ * browsers) env() is 0, and the header would otherwise sit flush against the
+ * top edge of the screen.
+ */
 .safe-top {
-  padding-top: env(safe-area-inset-top);
+  padding-top: calc(env(safe-area-inset-top, 0px) + 0.75rem);
+}
+
+@media (min-width: 768px) {
+  .safe-top {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.5rem);
+  }
 }
 
 .safe-bottom {
